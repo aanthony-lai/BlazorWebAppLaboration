@@ -1,0 +1,43 @@
+﻿img {
+    height: 150px;
+    object-fit: scale-down;
+    padding: 5px;
+}
+
+img:hover {
+    cursor: pointer;
+}
+
+.btn {
+    font-family: 'Roboto Slab', serif;
+}
+
+.btn-danger {
+    
+}
+
+.product-card {
+    border: solid 1px;
+    border-radius: 10px;
+}
+
+.card-body {
+    padding-top: 0;
+    padding-bottom: 0;
+    font-family: 'Roboto Slab', serif;
+}
+
+.card-text {
+    font-size: 15px;
+}
+
+.card-title {
+    font-family: 'Roboto Slab', serif;
+    font-size: 17px;
+}
+
+.card-button {
+    padding-bottom: 1rem;
+    padding-left: 1rem;
+}
+

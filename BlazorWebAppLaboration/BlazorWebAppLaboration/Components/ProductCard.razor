@@ -1,0 +1,51 @@
+﻿@inject NavigationManager _navigationManager
+@inject IShoppingCartService _shoppingCartService
+@inject ICurrencyService _currencyService
+@inject IProductService _productService
+@inject Blazored.LocalStorage.ILocalStorageService _localStorage
+
+<div class="card product-card" style="width: 18rem">
+	<img @onclick=@(() => _navigationManager.NavigateTo($"/product/{Product.Id}"))
+		 src="@Product.ImageURL" class="card-img-top" alt="..." />
+	<div class="card-body">
+		<div class="card-title">
+			<p><strong>@Product.Name</strong></p>
+		</div>
+		<div class="card-text">
+			<p>@Product.Description.Substring(0, 50) ...</p>
+		</div>
+		<div class="card-text">
+			<p>Price: <strong>@Product.Price @_currencyService.SelectedCurrency</strong></p>
+		</div>
+	</div>
+	<div class="card-button">
+		<a @onclick="AddToShoppingCartHandler" class="btn @(Product.Stock == 0 ? "btn-danger" : "btn-dark")">
+			@(Product.Stock == 0 ? "Out of stock" : "Add to cart")
+		</a>
+	</div>
+</div>
+
+
+@code {
+	[Parameter]
+	public Product Product { get; set; } = new();
+	
+	[CascadingParameter]
+	Task<AuthenticationState>? authenticationState { get; set; }
+
+	async Task AddToShoppingCartHandler()
+	{
+		var authState = await authenticationState;
+		var user = authState.User.Identity.Name;
+
+		if(!await _productService.SubtractFromStockAsync(Product))
+		{
+			return;
+		}
+
+		_shoppingCartService.AddToShoppingCart(Product);
+		await _localStorage.SetItemAsync<List<Product>>(user, _shoppingCartService._shoppingCartList);
+		Product = await _productService.GetProductByIdAsync(Product.Id);
+	}
+}
+

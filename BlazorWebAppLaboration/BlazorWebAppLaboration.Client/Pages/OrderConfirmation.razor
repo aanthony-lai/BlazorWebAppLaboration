@@ -1,0 +1,45 @@
+﻿@page "/order-confirmation/{orderId:int}"
+@using BlazorLaboration.Client.DTO
+@inject Blazored.LocalStorage.ILocalStorageService _localStorage
+@rendermode InteractiveAuto
+
+<div class="container">
+	<h1>Thank you for your order!</h1>
+	<p>
+		Thank you for your order! Your order id is: <strong>@orderId</strong> 
+		We're preparing your items for shipment and will notify you once they're on their way.
+		If you have any questions, please contact us. Thank you for choosing us!
+	</p>
+	<div class="items-container">
+		@foreach (var product in orderList)
+		{
+			<div class="item">
+				<div>
+					<img class="" src="@product.ImageURL" />
+				</div>
+				<div>
+					<p>@product.Name</p>
+				</div>
+				<div>
+					<p>Quantity: <strong>@product.Stock</strong></p>
+				</div>
+			</div>
+		}
+	</div>
+	<a href="/">Back to homepage</a>
+</div>
+
+
+
+@code {
+	[Parameter]
+	public int orderId { get; set; }
+
+	List<ProductDTO>? orderList = new List<ProductDTO>();
+
+	protected override async Task OnAfterRenderAsync(bool firstRender)
+	{
+		orderList = await _localStorage.GetItemAsync<List<ProductDTO>>("orderList");
+		StateHasChanged();
+	}
+}

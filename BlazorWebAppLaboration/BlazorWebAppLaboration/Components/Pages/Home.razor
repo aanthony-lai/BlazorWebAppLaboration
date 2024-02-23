@@ -1,0 +1,52 @@
+﻿@attribute [Authorize]
+@page "/"
+@rendermode InteractiveServer
+@inject IProductService _productService
+@inject ICurrencyService _currencyService
+@inject IShoppingCartService _shoppingCartService
+@inject Blazored.LocalStorage.ILocalStorageService _localStorage
+
+<div class="container">
+	<CurrencyConverter SelectCurrencyCallback="OnCurrencyChangeHandler" />
+	<ShoppingCart />
+</div>
+<ProductsContainer Products="Products" />
+
+@code {
+	List<Product> Products { get; set; } = new();
+
+	[CascadingParameter]
+	Task<AuthenticationState>? authenticationState { get; set; } 
+
+	protected override async Task OnInitializedAsync()
+	{
+		var authState = await authenticationState;
+		var user = authState.User.Identity.Name;
+
+		_currencyService.SelectedCurrency = _currencyService.InitialCurrency;
+		Products = await _productService.GetProductsAsync();
+	}
+
+	protected override async Task OnAfterRenderAsync(bool firstRender)
+	{
+		var authState = await authenticationState;
+		var user = authState.User.Identity.Name;
+
+		if (await _localStorage.ContainKeyAsync(user))
+		{
+			_shoppingCartService._shoppingCartList = await _localStorage.GetItemAsync<List<Product>>(user);
+		}
+	}
+
+	async Task OnCurrencyChangeHandler(string selectedCurrency)
+	{
+		if (selectedCurrency == _currencyService.InitialCurrency)
+		{
+			Products = await _productService.GetProductsAsync();
+
+			_currencyService.SelectedCurrency = _currencyService.InitialCurrency;
+			return;
+		}
+		Products = await _currencyService.ConvertProductsCurrencyAsync(selectedCurrency, Products);
+	}
+}

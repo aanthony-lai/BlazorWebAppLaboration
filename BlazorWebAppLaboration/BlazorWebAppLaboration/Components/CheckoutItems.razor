@@ -1,0 +1,39 @@
+﻿@inject IShoppingCartService _shoppingCartService
+@inject Blazored.LocalStorage.ILocalStorageService _localStorage
+
+<div class="cart-item">
+	<div>
+		<img class="product-image" src="@Product.ImageURL" />
+	</div>
+	<div>
+		<p>@Product.Name</p>
+	</div>
+	<div>
+		<p>Quantity: <strong>@Product.Stock</strong></p>
+	</div>
+	<div>
+		<img @onclick="() => RemoveFromCartHandler(Product)" class="remove-item" src="https://icons.veryicon.com/png/o/miscellaneous/easyapi-service-platform/delete-item-1.png" />
+	</div>
+</div>
+
+@code {
+	[Parameter]
+	public Product Product { get; set; } = new Product();
+
+	[Parameter]
+	public EventCallback RemoveCartItemCallback { get; set; }
+
+	[CascadingParameter]
+	Task<AuthenticationState>? authenticationState { get; set; }
+
+	async Task RemoveFromCartHandler(Product product)
+	{
+		var authState = await authenticationState;
+		var user = authState.User.Identity.Name;
+
+		_shoppingCartService.RemoveFromShoppingCart(product, Product.Stock);
+		
+		await _localStorage.SetItemAsync<List<Product>>(user, _shoppingCartService._shoppingCartList);
+		await RemoveCartItemCallback.InvokeAsync();
+	}
+}

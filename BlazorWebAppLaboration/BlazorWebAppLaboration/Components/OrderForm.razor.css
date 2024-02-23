@@ -1,0 +1,17 @@
+﻿* {
+    font-family: 'Roboto Slab', serif;
+}
+
+.form-group {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 2rem;
+}
+
+.form-label {
+    margin-right: 2rem;
+}
+
+label {
+    width: 10%;
+}

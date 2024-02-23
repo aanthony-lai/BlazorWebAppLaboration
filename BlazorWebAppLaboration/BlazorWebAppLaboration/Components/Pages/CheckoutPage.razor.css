@@ -1,0 +1,16 @@
+﻿* {
+    font-family: 'Roboto Slab', serif;
+}
+
+.container {
+    padding: 0;
+    margin-top: 3rem;
+    margin-bottom: 3rem;
+}
+
+    .container.empty {
+        padding: 0;
+        margin-top: 6rem;
+        display: flex;
+        justify-content: center;
+    }

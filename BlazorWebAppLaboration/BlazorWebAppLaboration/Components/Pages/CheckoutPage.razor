@@ -1,0 +1,36 @@
+﻿@page "/check-out"
+@rendermode InteractiveServer
+@inject IShoppingCartService _shoppingCartService
+
+@if(ShoppingCartList.Count == 0)
+{
+	<div class="container empty">
+		<h1>There are no products in the shopping cart.</h1>
+	</div>
+}
+else
+{
+	<div class="container">
+		@foreach (var product in ShoppingCartList)
+		{
+			<CheckoutItems Product="product" 
+				RemoveCartItemCallback="ChangeStateHandler">
+			</CheckoutItems>
+		}
+	</div>
+	<OrderForm />
+}
+
+@code {
+	List<Product> ShoppingCartList { get; set; } = new List<Product>();
+
+	protected override void OnInitialized()
+	{
+		ShoppingCartList = _shoppingCartService._shoppingCartList;
+	}
+
+	void ChangeStateHandler()
+	{
+		StateHasChanged();
+	}
+}

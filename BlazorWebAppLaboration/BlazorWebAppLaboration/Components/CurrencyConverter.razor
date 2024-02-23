@@ -1,0 +1,31 @@
+﻿@inject ICurrencyService _currencyService
+
+<div class="container">
+	<InputSelect class="form-select" @bind-Value="SelectedCurrency">
+		<option value="EUR">EUR</option>
+		<option value="USD">USD</option>
+	</InputSelect>
+</div>
+
+@code {
+	[Parameter]
+	public EventCallback<string> SelectCurrencyCallback { get; set; }
+
+	[Parameter]
+	public string _selectedCurrency { get; set; } = string.Empty;
+
+	protected override void OnInitialized()
+	{
+		_selectedCurrency = _currencyService.InitialCurrency;
+	}
+
+	public string SelectedCurrency
+	{
+		get { return _selectedCurrency; }
+		set
+		{
+			_selectedCurrency = value;
+			SelectCurrencyCallback.InvokeAsync(_selectedCurrency);
+		}
+	}
+}

@@ -1,0 +1,14 @@
+﻿h1 {
+    width: 100%;
+    text-align: center;
+}
+
+.row {
+    margin-top: 5rem;
+    display: flex;
+    justify-content: center;
+}
+
+#submit-button {
+    margin-bottom: 1rem;
+}

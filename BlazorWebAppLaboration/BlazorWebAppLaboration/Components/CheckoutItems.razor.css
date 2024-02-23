@@ -1,0 +1,23 @@
+﻿p {
+    margin: 0;
+}
+
+.cart-item {
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+}
+
+img {
+    height: 3rem;
+}
+
+.remove-item {
+    height: 2rem;
+}
+
+.remove-item:hover {
+    cursor: pointer;
+}

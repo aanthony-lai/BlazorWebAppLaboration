@@ -1,0 +1,13 @@
+﻿@inject NavigationManager _navigationManager
+
+
+<div @onclick="ShoppingCartOnClickHandler" class="shopping-cart">
+	<img src="https://static.vecteezy.com/system/resources/previews/019/787/018/original/shopping-cart-icon-shopping-basket-on-transparent-background-free-png.png" />
+</div>
+
+@code {
+	void ShoppingCartOnClickHandler()
+	{
+		_navigationManager.NavigateTo("/check-out");
+	}
+}

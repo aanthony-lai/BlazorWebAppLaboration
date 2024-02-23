@@ -1,0 +1,13 @@
+﻿img {
+    height: 3rem;
+}
+
+img:hover {
+    cursor: pointer;
+}
+
+.shopping-cart {
+    text-align: right;
+    width: 75%;
+}
+

@@ -1,0 +1,53 @@
+﻿@inject NavigationManager _navigationManager
+@inject IShoppingCartService _shoppingCartService
+@inject IOrderService _orderService
+@inject Blazored.LocalStorage.ILocalStorageService _localStorage
+@rendermode InteractiveServer
+
+<EditForm Model="OrderInformation" OnValidSubmit="HandleValidSubmit">
+	<div class="form-group">
+		<DataAnnotationsValidator />
+		<ValidationSummary />
+	</div>
+	<div class="form-group">
+		<label for="firstName">First name</label>
+		<InputText id="firstName" @bind-Value="OrderInformation.FirstName" />
+	</div>
+	<div class="form-group">
+		<label for="lastName">Last name</label>
+		<InputText id="lastName" @bind-Value="OrderInformation.LastName" />
+	</div>
+	<div class="form-group">
+		<label for="address">Address</label>
+		<InputText id="address" @bind-Value="OrderInformation.Address" />
+	</div>
+	<div class="form-group">
+		<label for="email">Email</label>
+		<InputText id="email" @bind-Value="OrderInformation.Email" />
+	</div>
+	<div class="form-group button">
+		<button type="submit" class="btn btn-dark">Confirm order</button>
+	</div>
+</EditForm>
+
+@code {
+	OrderModel OrderInformation { get; set; } = new OrderModel();
+
+	[CascadingParameter]
+	public Task<AuthenticationState>? authenticationState { get; set; }
+
+	async Task HandleValidSubmit()
+	{
+		var authState = await authenticationState;
+		var user = authState.User.Identity.Name;
+
+		int orderId = await _orderService.CreateOrderAsync(OrderInformation);
+		
+		await _localStorage.SetItemAsync<List<Product>>("orderList", _shoppingCartService._shoppingCartList);
+
+		_shoppingCartService._shoppingCartList = new List<Product>();
+		_navigationManager.NavigateTo($"/order-confirmation/{orderId}");
+
+		await _localStorage.RemoveItemAsync(user);
+	}
+}

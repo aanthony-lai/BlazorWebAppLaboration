@@ -1,0 +1,39 @@
+﻿* {
+    font-family: 'Roboto Slab', serif;
+}
+
+a {
+    margin-top: 3rem;
+    color: black;
+    width: 100%;
+    text-align: center;
+}
+
+.container {
+    padding: 100px;
+    margin-top: 2rem;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.items-container {
+    width: 100%;
+}
+
+.item {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+h1 {
+    font-size: 40px;
+    margin-bottom: 2rem;
+}
+
+img {
+    height: 5rem;
+}
