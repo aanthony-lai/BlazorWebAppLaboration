@@ -7,12 +7,13 @@ namespace BlazorLaboration.Services
 {
 	public class ProductService : IProductService
 	{
-		//private readonly AppDbContext _appDbContext;
 		private readonly IDbContextFactory<AppDbContext> _dbContextFactory;
+		private readonly ICurrencyService _currencyService;
 
 		public ProductService(IDbContextFactory<AppDbContext> dbContextFactory, ICurrencyService currencyService) 
 		{
 			_dbContextFactory = dbContextFactory;
+			_currencyService = currencyService;
 		}
 
 		public async Task<List<Product>> GetProductsAsync()
@@ -25,7 +26,23 @@ namespace BlazorLaboration.Services
 			return result;
 		}
 
-		public async Task<Product> GetProductByIdAsync(int id)
+        public async Task<List<Product>> GetProductsAsync(string selectedCurrency)
+        {
+            using var context = await _dbContextFactory.CreateDbContextAsync();
+
+            var result = context.products.ToList()
+                    ?? new List<Product>();
+
+			if (selectedCurrency == _currencyService.InitialCurrency)
+			{
+				return result;
+			}
+
+			result = await _currencyService.ConvertProductsCurrencyAsync(selectedCurrency, result);
+			return result;
+		}
+
+        public async Task<Product> GetProductByIdAsync(int id)
 		{
 			using var context = await _dbContextFactory.CreateDbContextAsync();
 
@@ -35,7 +52,23 @@ namespace BlazorLaboration.Services
 			return result;
 		}
 
-		public async Task<bool> SubtractFromStockAsync(Product product)
+        public async Task<Product> GetProductByIdAsync(int id, string selectedCurrency)
+        {
+            using var context = await _dbContextFactory.CreateDbContextAsync();
+
+            var result = context.products.FirstOrDefault(x => x.Id == id)
+                ?? new Product();
+
+			if(selectedCurrency == _currencyService.InitialCurrency)
+			{
+				return result;
+			}
+
+			result = await _currencyService.ConvertSingleProductCurrencyAsync(selectedCurrency, result);
+            return result;
+        }
+
+        public async Task<bool> SubtractFromStockAsync(Product product)
 		{
 			using var context = await _dbContextFactory.CreateDbContextAsync();
 

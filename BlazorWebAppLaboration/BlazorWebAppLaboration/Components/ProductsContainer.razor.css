@@ -1,7 +1,57 @@
-﻿.container {
+﻿* {
+    font-family: 'Roboto Slab', serif;
+}
+
+.container {
     margin-top: 2rem;
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
     justify-content: flex-start;
+}
+
+img {
+    height: 150px;
+    object-fit: scale-down;
+    padding: 5px;
+}
+
+    img:hover {
+        cursor: pointer;
+    }
+
+.product-card {
+    border: solid 1px;
+    border-radius: 20px;
+}
+
+.card-body {
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+.card-text {
+    font-size: 15px;
+}
+
+.card-title {
+    font-size: 17px;
+}
+
+.card-button {
+    padding-bottom: 1rem;
+    padding-left: 1rem;
+}
+
+@media screen and (max-width: 390px) {
+    .product-card {
+        border: solid 1px;
+        border-radius: 20px;
+        margin-bottom: 1rem;
+    }
+}
+@media screen and (max-width: 390px) {
+    .container {
+        justify-content: center;
+    }
 }

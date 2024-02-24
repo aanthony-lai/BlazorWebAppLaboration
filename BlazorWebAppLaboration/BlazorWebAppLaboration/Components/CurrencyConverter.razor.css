@@ -2,3 +2,9 @@
     width: 25%;
     padding: 0;
 }
+
+@media screen and (max-width: 390px) {
+    .container {
+        width: 30%;
+    }
+}

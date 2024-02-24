@@ -1,12 +1,55 @@
-﻿<div class="container">
+﻿@inject IShoppingCartService _shoppingCartService
+@inject ICurrencyService _currencyService
+@inject IProductService _productService
+@inject ILocalStorageService _localStorage
+@inject NavigationManager _navigationManager
+
+<div class="container">
 	@foreach (var product in Products)
 	{
-		<ProductCard Product="product" />
+		<div class="card product-card" style="width: 18rem">
+			<img @onclick=@(() => _navigationManager.NavigateTo($"/product/{product.Id}"))
+				 src="@product.ImageURL" class="card-img-top" alt="..." />
+			<div class="card-body">
+				<div class="card-title">
+					<p><strong>@product.Name</strong></p>
+				</div>
+				<div class="card-text">
+					<p>@product.Description.Substring(0, 50) ...</p>
+				</div>
+				<div class="card-text">
+					<p>Price: <strong>@product.Price @_currencyService.SelectedCurrency</strong></p>
+				</div>
+			</div>
+			<div class="card-button">
+				<a @onclick="() => AddToShoppingCartHandler(product)" class="btn @(product.Stock == 0 ? "btn-danger" : "btn-dark")">
+					@(product.Stock == 0 ? "Out of stock" : "Add to cart")
+				</a>
+			</div>
+		</div>
 	}
 </div>
-
 
 @code {
 	[Parameter]
 	public List<Product> Products { get; set; } = new();
+
+	[CascadingParameter]
+	Task<AuthenticationState>? authenticationState { get; set; }
+
+	async Task AddToShoppingCartHandler(Product product)
+	{
+		var authState = await authenticationState;
+		var user = authState.User.Identity.Name;
+
+		if (!await _productService.SubtractFromStockAsync(product))
+		{
+			return;
+		}
+		_shoppingCartService.AddToShoppingCart(product);
+
+		await _localStorage.SetItemAsync<List<Product>>(user, _shoppingCartService._shoppingCartList);
+
+		Products = await _productService.GetProductsAsync(_currencyService.SelectedCurrency);
+	}
 }

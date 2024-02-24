@@ -9,7 +9,7 @@
 
 @code {
 	[Parameter]
-	public EventCallback<string> SelectCurrencyCallback { get; set; }
+	public EventCallback<string> OnCurrencyChangeCallback { get; set; }
 
 	[Parameter]
 	public string _selectedCurrency { get; set; } = string.Empty;
@@ -25,7 +25,7 @@
 		set
 		{
 			_selectedCurrency = value;
-			SelectCurrencyCallback.InvokeAsync(_selectedCurrency);
+			OnCurrencyChangeCallback.InvokeAsync(_selectedCurrency);
 		}
 	}
 }

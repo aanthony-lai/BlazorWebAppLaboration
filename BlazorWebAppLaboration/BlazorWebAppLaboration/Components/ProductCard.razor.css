@@ -1,4 +1,8 @@
-﻿img {
+﻿* {
+    font-family: 'Roboto Slab', serif;
+}
+
+img {
     height: 150px;
     object-fit: scale-down;
     padding: 5px;
@@ -8,23 +12,14 @@ img:hover {
     cursor: pointer;
 }
 
-.btn {
-    font-family: 'Roboto Slab', serif;
-}
-
-.btn-danger {
-    
-}
-
 .product-card {
     border: solid 1px;
-    border-radius: 10px;
+    border-radius: 20px;
 }
 
 .card-body {
     padding-top: 0;
     padding-bottom: 0;
-    font-family: 'Roboto Slab', serif;
 }
 
 .card-text {
@@ -32,7 +27,6 @@ img:hover {
 }
 
 .card-title {
-    font-family: 'Roboto Slab', serif;
     font-size: 17px;
 }
 
@@ -41,3 +35,10 @@ img:hover {
     padding-left: 1rem;
 }
 
+@media screen and (max-width: 390px) {
+    .product-card {
+        border: solid 1px;
+        border-radius: 20px;
+        margin-bottom: 1rem;
+    }
+}

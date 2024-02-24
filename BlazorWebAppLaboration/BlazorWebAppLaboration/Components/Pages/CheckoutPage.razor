@@ -1,6 +1,7 @@
 ﻿@page "/check-out"
 @rendermode InteractiveServer
 @inject IShoppingCartService _shoppingCartService
+@attribute [Authorize]
 
 @if(ShoppingCartList.Count == 0)
 {

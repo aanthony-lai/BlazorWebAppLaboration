@@ -15,3 +15,13 @@
 label {
     width: 10%;
 }
+
+@media (max-width: 390px) {
+    label {
+        width: 25%;
+    }
+
+    button {
+        width: 85%;
+    }
+}

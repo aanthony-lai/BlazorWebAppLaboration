@@ -4,9 +4,23 @@
     flex-direction: column;
 }
 
+* {
+    font-family: 'Roboto Slab', serif;
+}
+
+.nav-item.px-3 {
+    display: flex;
+    justify-content: flex-end;
+}
+
+button {
+    border: none;
+    background: none;
+    font-size: large;
+}
+
 .header {
     width: 100%;
-    margin-top: 2rem;
     text-align: center;
     font-family: 'Roboto Slab', serif;
 }
@@ -85,6 +99,12 @@ main {
     .top-row, article {
         padding-left: 2rem !important;
         padding-right: 1.5rem !important;
+    }
+}
+
+@media (max-width: 390px) {
+    .nav-item.px-3 {
+        justify-content: center;
     }
 }
 

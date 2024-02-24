@@ -4,6 +4,7 @@
 @inject IShoppingCartService _shoppingCartService
 @inject ICurrencyService _currencyService
 @inject Blazored.LocalStorage.ILocalStorageService _localStorage
+@attribute [Authorize]
 
 @if(Product.Name == string.Empty)
 {
@@ -15,7 +16,7 @@
 else
 {
 	<div class="top-container">
-		<CurrencyConverter SelectCurrencyCallback="OnCurrencyChangeHandler" />
+		<CurrencyConverter OnCurrencyChangeCallback="OnCurrencyChangeHandler" />
 		<ShoppingCart />
 	</div>
 	<div class="container">
@@ -58,10 +59,11 @@ else
 		{
 			return;
 		}
-
 		_shoppingCartService.AddToShoppingCart(Product);
+
 		await _localStorage.SetItemAsync<List<Product>>(user, _shoppingCartService._shoppingCartList);
-		Product = await _productService.GetProductByIdAsync(Product.Id);
+
+		Product = await _productService.GetProductByIdAsync(Product.Id, _currencyService.SelectedCurrency);
 	}
 
 	async Task OnCurrencyChangeHandler(string selectedCurrency)
