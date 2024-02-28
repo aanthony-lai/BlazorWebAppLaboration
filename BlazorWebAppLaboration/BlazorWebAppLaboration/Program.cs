@@ -6,6 +6,8 @@ using BlazorWebAppLaboration.Client.Pages;
 using BlazorWebAppLaboration.Components;
 using BlazorWebAppLaboration.Components.Account;
 using BlazorWebAppLaboration.Data;
+using BlazorWebAppLaboration.Plugins;
+using BlazorWebAppLaboration.Services;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -17,6 +19,7 @@ builder.Services.AddRazorComponents()
 	.AddInteractiveServerComponents()
 	.AddInteractiveWebAssemblyComponents();
 
+builder.Services.AddSingleton<OpenAIService>();
 builder.Services.AddSingleton<IProductService, ProductService>();
 builder.Services.AddSingleton<IShoppingCartService, ShoppingCartService>();
 builder.Services.AddSingleton<IOrderService, OrderService>();

@@ -4,13 +4,15 @@
 @inject ICurrencyService _currencyService
 @inject IShoppingCartService _shoppingCartService
 @inject Blazored.LocalStorage.ILocalStorageService _localStorage
+@inject IJSRuntime _jsRuntime
 @attribute [Authorize]
 
 <div class="container">
 	<CurrencyConverter OnCurrencyChangeCallback="OnCurrencyChangeHandler" />
 	<ShoppingCart />
+	<ProductsContainer Products="Products" />
+	<Chat />
 </div>
-<ProductsContainer Products="Products" />
 
 @code {
 	List<Product> Products { get; set; } = new();
@@ -28,6 +30,8 @@
 	{
 		var authState = await authenticationState;
 		var user = authState.User.Identity.Name;
+
+		await _jsRuntime.InvokeVoidAsync("sessionStorage.setItem", "user", user);
 
 		if (await _localStorage.ContainKeyAsync(user))
 		{

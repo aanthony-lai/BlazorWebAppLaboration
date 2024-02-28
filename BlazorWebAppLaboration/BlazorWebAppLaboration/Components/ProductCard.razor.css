@@ -35,6 +35,10 @@ img:hover {
     padding-left: 1rem;
 }
 
+.clicked {
+    color: greenyellow;
+}
+
 @media screen and (max-width: 390px) {
     .product-card {
         border: solid 1px;

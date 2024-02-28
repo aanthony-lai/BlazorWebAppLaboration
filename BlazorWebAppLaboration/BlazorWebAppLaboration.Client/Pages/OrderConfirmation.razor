@@ -1,12 +1,15 @@
 ﻿@page "/order-confirmation/{orderId:int}"
 @using BlazorLaboration.Client.DTO
 @inject Blazored.LocalStorage.ILocalStorageService _localStorage
+@inject AuthenticationStateProvider _authStateProvider
+@inject IJSRuntime _jsRuntime
+@inject NavigationManager _navigationManager
 @rendermode InteractiveAuto
 
 <div class="container">
 	<h1>Thank you for your order!</h1>
 	<p>
-		Thank you for your order! Your order id is: <strong>@orderId</strong> 
+		Thank you for your order! Your order id is: <strong>@orderId</strong>
 		We're preparing your items for shipment and will notify you once they're on their way.
 		If you have any questions, please contact us. Thank you for choosing us!
 	</p>
@@ -29,13 +32,25 @@
 	<a href="/">Back to homepage</a>
 </div>
 
-
-
 @code {
 	[Parameter]
 	public int orderId { get; set; }
 
 	List<ProductDTO>? orderList = new List<ProductDTO>();
+
+	bool isAuthenticated;
+
+	protected override async Task OnInitializedAsync()
+	{
+		var authState = await _authStateProvider.GetAuthenticationStateAsync();
+		var user = authState.User;
+		if(user.Identity.IsAuthenticated)
+		{
+			isAuthenticated = true;
+			return;
+		}
+		_navigationManager.NavigateTo("/Account/Login");
+	}
 
 	protected override async Task OnAfterRenderAsync(bool firstRender)
 	{
