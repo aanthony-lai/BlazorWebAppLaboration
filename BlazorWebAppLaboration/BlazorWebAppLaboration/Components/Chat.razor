@@ -1,0 +1,88 @@
+﻿@using Microsoft.SemanticKernel
+@using Microsoft.SemanticKernel.ChatCompletion
+@using Microsoft.SemanticKernel.Connectors.OpenAI
+
+<div class="chat-container">
+
+	<div class="chat-box">
+		<div class="message-container">
+			<div>
+				<p style="color:red">Hi, how can I help you?</p>
+				@foreach(var message in history)
+				{
+					if (message.Role.Label == "system") {
+						continue;
+					}
+					<p style="color:@(message.Role.Label == "user" ? "green" : "red")">@message.Content</p>
+				}
+			</div>
+		</div>
+		<div class="group-input">
+			<input @bind-value="userMessage" type="text" placeholder="Your message..."/>
+			<img @onclick="SendMessage" src="https://cdn-icons-png.flaticon.com/512/3106/3106794.png" />
+		</div>
+	</div>
+
+	<div class="chat">
+		<img src="https://cdn.icon-icons.com/icons2/2943/PNG/512/chat_icon_184003.png" />
+	</div>
+</div>
+
+@code {
+	bool isSent = false;
+	string modelAlias = "MyFirstDotNetChatBot";
+	string modelId = "gpt-3.5-turbo";
+	string deploymentID = "";
+	string endpoint = "";
+	string key = "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";
+	IKernelBuilder builder;
+	Kernel MyKernel;
+	ChatHistory history = [];
+	IChatCompletionService chatCompletionService;
+	string userMessage = string.Empty;
+
+	protected override void OnInitialized()
+	{
+		builder = Kernel.CreateBuilder();
+		builder.AddOpenAIChatCompletion(modelId, key);
+
+		MyKernel = builder.Build();
+		history.AddSystemMessage("You are a helpful AI assistant. Your job is to help me understand certain topics better.");
+
+		chatCompletionService = MyKernel.GetRequiredService<IChatCompletionService>();
+	}
+
+	async Task SendMessage()
+	{
+		isSent = !isSent;
+
+		while (isSent)
+		{
+
+			history.AddUserMessage(userMessage);
+
+			OpenAIPromptExecutionSettings openAIPromptExecutionSettings = new()
+				{
+					ToolCallBehavior = ToolCallBehavior.AutoInvokeKernelFunctions
+				};
+
+			var response = chatCompletionService.GetStreamingChatMessageContentsAsync(
+									history,
+									openAIPromptExecutionSettings,
+									kernel: MyKernel);
+
+			string combinedResponse = string.Empty;
+			await foreach (var message in response)
+			{
+				Console.Write(message);
+				combinedResponse += message;
+			}
+
+			history.AddAssistantMessage(combinedResponse);
+
+			isSent = !isSent;
+			userMessage = string.Empty;
+		}
+	}
+
+}

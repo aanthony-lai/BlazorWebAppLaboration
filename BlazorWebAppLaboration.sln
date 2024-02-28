@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34316.72
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorWebAppLaboration", "BlazorWebAppLaboration\BlazorWebAppLaboration\BlazorWebAppLaboration.csproj", "{A8109F02-07FF-4B53-937A-5407ED5FC2D2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorWebAppLaboration", "BlazorWebAppLaboration\BlazorWebAppLaboration\BlazorWebAppLaboration.csproj", "{A8109F02-07FF-4B53-937A-5407ED5FC2D2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorWebAppLaboration.Client", "BlazorWebAppLaboration\BlazorWebAppLaboration.Client\BlazorWebAppLaboration.Client.csproj", "{F9ECD7AD-D507-45A6-8806-AEF6D11A432D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorWebAppLaboration.Client", "BlazorWebAppLaboration\BlazorWebAppLaboration.Client\BlazorWebAppLaboration.Client.csproj", "{F9ECD7AD-D507-45A6-8806-AEF6D11A432D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
