@@ -1,7 +1,8 @@
 ﻿@inject IDbContextFactory<AppDbContext> dbContext
-@inject OpenAIService openAIService
+@* @inject OpenAIService openAIService *@ @* //Requires an OpenAI API-key *@
 
-@if(!isChat)
+
+@* @if(!isChat)
 {
 	<div class="chat-logo">
 		<img @onclick="ShowCloseChat" src="https://cdn.icon-icons.com/icons2/2943/PNG/512/chat_icon_184003.png" />
@@ -13,42 +14,53 @@ else
 		<div id="close-logo">
 			<img @onclick="ShowCloseChat" src="https://icons.veryicon.com/png/o/object/material_design_icons/window-close-1.png" />
 		</div>
+
 		<div class="message-container">
 			<div class="message">
 				<p style="color:black">Hello, how can I help you?</p>
 			</div>
 			@foreach (var message in history)
-			{ 
+				{
 				if (message.Role.Label == "system" || message.Role.Label == "tool")
 				{
-					continue;
-				}
+						continue;
+					}
 				<div class="message">
 					<p style="color:@(message.Role.Label == "user" ? "blue" : "black")">@message.Content</p>
 				</div> 
-			 } 
-		</div>
+				}
+			</div>
 		<div class="group-input">
 			<input @bind-value="userMessage" type="text" placeholder="Your message..." />
 			<img @onclick="SendMessage" src="https://cdn-icons-png.flaticon.com/512/3106/3106794.png" />
 		</div>
 	</div>
-}
+} *@
+
 
 @code {
-	ChatHistory history = [];
-	string userMessage = string.Empty;
-	bool isChat = false;
+	// bool isSent = false;
+	// string modelAlias = "MyFirstDotNetChatBot";
+	// string modelId = "gpt-3.5-turbo";
+	// string deploymentID = "";
+	// string endpoint = "";
+	// string key = "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";
+	// IKernelBuilder builder;
+	// Kernel MyKernel;
+	// ChatHistory history = [];
+	// IChatCompletionService chatCompletionService;
+	// string userMessage = string.Empty;
+	// bool isChat = false;
 
-	async Task SendMessage()
-	{
-		history = await openAIService.SendMessage(userMessage);
-		userMessage = string.Empty;
-		history = await openAIService.Response();
-	}
+	// async Task SendMessage()
+	// {
+	// 	history = await openAIService.SendMessage(userMessage);
+	// 	userMessage = string.Empty;
+	// 	history = await openAIService.Response();
+	// 		}
 
-	void ShowCloseChat()
-	{
-		isChat = !isChat;
-	}
+	// void ShowCloseChat()
+	// {
+	// 	isChat = !isChat;
+	// }
 }

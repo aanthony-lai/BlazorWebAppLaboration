@@ -19,7 +19,7 @@ builder.Services.AddRazorComponents()
 	.AddInteractiveServerComponents()
 	.AddInteractiveWebAssemblyComponents();
 
-builder.Services.AddSingleton<OpenAIService>();
+//builder.Services.AddSingleton<OpenAIService>(); // Requires an OpenAI API-key
 builder.Services.AddSingleton<IProductService, ProductService>();
 builder.Services.AddSingleton<IShoppingCartService, ShoppingCartService>();
 builder.Services.AddSingleton<IOrderService, OrderService>();

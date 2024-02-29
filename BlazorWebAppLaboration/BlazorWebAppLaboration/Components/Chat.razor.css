@@ -8,9 +8,11 @@
     justify-content: right;
     border-bottom: solid 1px;
 }
+
     #close-logo img {
         height: 2rem;
     }
+
     #close-logo:hover {
         cursor: pointer;
     }
@@ -20,9 +22,11 @@
     right: 4rem;
     bottom: 4rem;
 }
+
     .chat-logo img {
         height: 5rem;
     }
+
     .chat-logo:hover {
         cursor: pointer;
     }
@@ -48,9 +52,11 @@
     border-bottom: solid 1px;
     padding: 1rem 1rem 1rem 1rem;
 }
-    .message {
-        margin-bottom: 1rem;
-    }
+
+.message {
+    margin-bottom: 1rem;
+}
+
     .message p {
         font-size: small;
     }
@@ -60,14 +66,15 @@
     flex-grow: 1;
     align-items: center;
 }
+
     .group-input img {
         display: flex;
         height: 2rem;
     }
 
-    .group-input img:hover {
-        cursor: pointer;
-    }
+        .group-input img:hover {
+            cursor: pointer;
+        }
 
     .group-input input {
         height: 100%;
